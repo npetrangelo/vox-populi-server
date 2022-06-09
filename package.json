@@ -1,0 +1,20 @@
+{
+  "name": "vox-populi-server",
+  "version": "1.0.0",
+  "description": "A server to prototype a REST API over vox-populi, with an authorization layer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npetrangelo/vox-populi-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npetrangelo/vox-populi-server/issues"
+  },
+  "homepage": "https://github.com/npetrangelo/vox-populi-server#readme"
+}
