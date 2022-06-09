@@ -2,9 +2,15 @@
   "name": "vox-populi-server",
   "version": "1.0.0",
   "description": "A server to prototype a REST API over vox-populi, with an authorization layer",
-  "main": "index.js",
+  "main": "dist/index",
+  "typings": "dist/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run clean && tsc -p .",
+    "watch": "tsc -w -p .",
+    "clean": "rm -rf dist",
+    "test": "jest --coverage --roots ./tests",
+    "test:watch": "jest --watch --roots ./tests"
   },
   "repository": {
     "type": "git",
@@ -29,5 +35,10 @@
     "tslint": "^5.11.0",
     "typescript": "^4.6.4",
     "vox-populi": "^0.0.5"
-  }
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/src"
+  ]
 }
