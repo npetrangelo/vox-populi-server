@@ -1,13 +1,15 @@
 import {BallotBox} from "vox-populi";
-import express from 'express';
+import express, {Application, Response, Request, Router} from 'express';
 
-const app: express.Application = express();
+const app: Application = express();
 const port: number = 3000;
 
 let boxes: Map<string, BallotBox<string>> = new Map();
 
-app.get('/', (_req, _res) => {
-   _res.send("Typescript With Express");
+app.use(express.json());
+
+app.get('/', async (_req: Request, _res: Response) => {
+   _res.send("Vox Populi Server");
 });
 
 // app.route('/boxes')
@@ -19,6 +21,6 @@ app.get('/', (_req, _res) => {
 //     });
 
 app.listen(port, () => {
-    console.log(`Typescript with Express
+    console.log(`Vox Populi Server!
                  http://localhost:${port}/`);
 });
