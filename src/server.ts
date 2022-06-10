@@ -9,7 +9,7 @@ let boxes: Map<string, BallotBox<string>> = new Map();
 app.use(express.json());
 
 app.get('/', async (_req: Request, _res: Response) => {
-   _res.send("Vox Populi Server");
+    _res.send("Vox Populi Server");
 });
 
 interface BoxRequest {
