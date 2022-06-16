@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "start": "nodemon --watch 'dist/src/**/*.js' dist/src/index.js",
+    "start": "nodemon --watch 'src/**/*.ts' src/index.ts",
     "prepublishOnly": "npm run compile",
     "compile": "npm run clean && tsc -p .",
     "watch": "tsc -w -p .",
@@ -36,7 +36,7 @@
     "ts-jest": "^28.0.2",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3",
-    "vox-populi": "^0.0.14"
+    "vox-populi": "^0.0.19"
   },
   "files": [
     "dist/index.js",
