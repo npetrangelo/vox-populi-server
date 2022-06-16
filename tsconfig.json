@@ -8,18 +8,14 @@
         "sourceMap": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
-        "allowJs": true,
-        "noFallthroughCasesInSwitch": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": true,
+//        "allowJs": true,
+//        "noFallthroughCasesInSwitch": true,
+//        "resolveJsonModule": true,
+//        "skipLibCheck": true,
+//        "strict": true,
     },
-//    "lib": "ES2022",
     "ts-node": {
         "esm": true,
-        "compilerOptions": {
-            "module": "ES2022",
-        },
     },
     "include": [
         "index.ts",
