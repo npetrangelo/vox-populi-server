@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "ES2022",
         "moduleResolution": "Node",
-        "target": "es2022",
+        "target": "ES2022",
         "outDir": "./dist",
         "declaration": true,
         "sourceMap": true,
@@ -12,10 +12,14 @@
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "strict": true
+        "strict": true,
     },
+//    "lib": "ES2022",
     "ts-node": {
-        "esm": true
+        "esm": true,
+        "compilerOptions": {
+            "module": "ES2022",
+        },
     },
     "include": [
         "index.ts",
