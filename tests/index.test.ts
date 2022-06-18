@@ -1,13 +1,25 @@
 import 'jest';
 
-import {BallotBox, Plurality} from "vox-populi";
-import {Foo} from "../src/foo";
+import {BallotBox, Consensus, CountingStrategy, Plurality} from "vox-populi";
+import {app, server} from "../src/index";
+import request from 'supertest';
 
-describe("Testing if Jest breaks the laws of physics", () => {
-   it("just works, magically", () => {
-       let box = new BallotBox<string>(5, new Plurality());
-       let foo = new Foo();
-       foo.foo();
-       expect(true).toBe(true);
-   });
+afterAll(() => {
+    server.close();
+});
+
+describe("Testing default endpoint", () => {
+    it("receives the expected text", async () => {
+        const res = await request(app).get('/');
+        expect(res.text).toBe("Vox Populi Server");
+        expect(res.statusCode).toBe(200);
+    });
+});
+
+describe("Testing /boxes endpoint", () => {
+    it("has no boxes to start with", async () => {
+        const res = await request(app).get('/boxes');
+        expect(res.text).toBe("[]");
+        expect(res.statusCode).toBe(200);
+    });
 });

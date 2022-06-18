@@ -1,7 +1,7 @@
 import express, {Application, Response, Request, Router} from 'express';
-import {BallotBox, CountingStrategy, Plurality} from "vox-populi";
+import {BallotBox, Consensus, Consent, CountingStrategy, Plurality} from "vox-populi";
 
-const app: Application = express();
+export const app: Application = express();
 const port: number = 3000;
 
 let boxes: Map<string, BallotBox<string>> = new Map();
@@ -19,7 +19,7 @@ interface BoxRequest {
 
 app.route('/boxes')
     .get((req, res) => {
-
+        res.send(JSON.stringify(Array.from(boxes.keys())));
     })
     .post((req, res) => {
         var boxRequest: BoxRequest = req.body;
@@ -28,7 +28,7 @@ app.route('/boxes')
         boxes.set(boxRequest.id, box);
     });
 
-app.listen(port, () => {
+export const server = app.listen(port, () => {
     console.log(`Vox Populi Server!
                  http://localhost:${port}/`);
 });
