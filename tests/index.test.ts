@@ -19,7 +19,7 @@ describe("Testing default endpoint", () => {
 describe("Testing /boxes endpoint", () => {
     it("has no boxes to start with", async () => {
         const res = await request(app).get('/boxes');
-        expect(res.text).toBe("[]");
+        expect(JSON.parse(res.text)).toEqual([]);
         expect(res.statusCode).toBe(200);
     });
 });
