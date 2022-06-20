@@ -1,7 +1,7 @@
 import 'jest';
 
 import {BallotBox, Consensus, CountingStrategy, Plurality} from "vox-populi";
-import {app, server} from "../src/index";
+import {app, BoxRequest, server} from "../src/index";
 import request from 'supertest';
 
 afterAll(() => {
@@ -10,16 +10,45 @@ afterAll(() => {
 
 describe("Testing default endpoint", () => {
     it("receives the expected text", async () => {
-        const res = await request(app).get('/');
-        expect(res.text).toBe("Vox Populi Server");
-        expect(res.statusCode).toBe(200);
+        await request(app).get('/').then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toBe("Vox Populi Server");
+        });
     });
 });
 
+let body: BoxRequest = {size: 7, strategyObject: {}, strategyType: "Plurality"};
+
 describe("Testing /boxes endpoint", () => {
-    it("has no boxes to start with", async () => {
-        const res = await request(app).get('/boxes');
-        expect(JSON.parse(res.text)).toEqual([]);
-        expect(res.statusCode).toBe(200);
+    beforeEach(async () => {
+        await request(app).delete('/boxes');
+        await request(app).post('/boxes').send(body);
+    });
+
+    it("GET method", async () => {
+        await request(app).get('/boxes').then(res => {
+            expect(res.body.length).toBe(1);
+            expect(res.statusCode).toBe(200);
+        });
+    });
+
+    it("POST method", async () => {
+        await request(app).post('/boxes').send(body).then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toBe(1);
+        });
+
+        await request(app).get('/boxes').then(res => {
+            expect(res.statusCode).toBe(200);
+            console.log(res.body);
+        });
+    });
+
+    it("DELETE method", async () => {
+        await request(app).delete('/boxes');
+        await request(app).get('/boxes').then(res => {
+            expect(res.body.length).toBe(0);
+            expect(res.statusCode).toBe(200);
+        });
     });
 });

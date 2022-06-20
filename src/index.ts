@@ -4,29 +4,56 @@ import {BallotBox, Consensus, Consent, CountingStrategy, Plurality} from "vox-po
 export const app: Application = express();
 const port: number = 3000;
 
-let boxes: Map<string, BallotBox<string>> = new Map();
+let boxes: Array<BallotBox> = [];
 
 app.use(express.json());
 
-app.get('/', async (_req: Request, _res: Response) => {
-    _res.send("Vox Populi Server");
+app.get('/', async (req: Request, res: Response) => {
+    res.json("Vox Populi Server");
 });
 
-interface BoxRequest {
-    id: string;
+export interface BoxRequest {
     size: number;
+    strategyType: "Consensus"|"Consent"|"Plurality"|"Quorum"|"Average";
+    strategyObject: any;
 }
 
 app.route('/boxes')
     .get((req, res) => {
-        res.send(JSON.stringify(Array.from(boxes.keys())));
+        res.json(boxes);
     })
     .post((req, res) => {
-        var boxRequest: BoxRequest = req.body;
-        let strategy: CountingStrategy<string> = new Plurality();
-        let box = new BallotBox<string>(boxRequest.size, strategy)
-        boxes.set(boxRequest.id, box);
-    });
+        let boxRequest: BoxRequest = req.body;
+        let strategy: CountingStrategy;
+        switch (boxRequest.strategyType) {
+            case "Consensus":
+                if (Consensus.check(boxRequest.strategyObject)) {
+                    strategy = boxRequest.strategyObject;
+                } else {
+                    res.status(400).send("Invalid strategyObject");
+                    return;
+                }
+                break;
+            case "Consent":
+                if (Consent.check(boxRequest.strategyObject)) {
+                    strategy = boxRequest.strategyObject;
+                } else {
+                    res.status(400).send("Invalid strategyObject");
+                    return;
+                }
+                break;
+            default:
+            case "Plurality":
+                strategy = boxRequest.strategyObject as Plurality;
+                break;
+        }
+        let box = new BallotBox(boxRequest.size, strategy);
+        let id = boxes.push(box) - 1;
+        res.json(id);
+    }).delete((req, res) => {
+        boxes = [];
+        res.status(200).json("Boxes deleted");
+});
 
 export const server = app.listen(port, () => {
     console.log(`Vox Populi Server!
