@@ -17,7 +17,7 @@ describe("Testing default endpoint", () => {
     });
 });
 
-let body: BoxRequest = {size: 7, strategyObject: {}, strategyType: "Plurality"};
+let body: BoxRequest = {size: 7, strategy: { type: "Plurality"}};
 
 describe("Testing /boxes endpoint", () => {
     beforeEach(async () => {
